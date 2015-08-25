@@ -8,32 +8,17 @@
 </head>
 <body>
   
-  <% #Common header nav bar using Bootstrap  %>
-  <header class="navbar navbar-fixed-top navbar-default">
-    <div class="container">
-      <%= link_to "MyRecipes", "", class: "btn btn-lg btn-success", id: "logo" %>
-      <div class="nav_item">
-        <%= link_to "link 1",  "", class: "btn btn-default btn-warning" %>
-      </div>
-      <div class="nav_item">
-        <%= link_to "link 2",  "", class: "btn btn-default btn-warning" %>
-      </div> 
-      <div class="nav_item">
-        <%= link_to "link 3",  "", class: "btn btn-default btn-warning" %>
-      </div>
-    </div>
-  </header>
+  <% #Common header nav bar  %>
+  <%= render 'layouts/navigation' %>
   
   <% #Body %>
-    <div class="container">
-    <% #Auto include all files under views/layouts/ %>
-    <%= yield %>
-    </div>
-    <div class="container">
-      <div class="footer">
-        <p>&copy; MyRecipes 2015</p>
-      </div>
-    </div>
+  <div class="container">
+  <% #Auto include all files under views/layouts/ %>
+  <%= yield %>
+  </div>
 
+  <% #Common footer %>
+  <%= render 'layouts/footer' %>
+  
 </body>
 </html>
