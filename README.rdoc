@@ -1,0 +1,47 @@
+TDD: Test Driven Development
+1) Spec it out
+2) Define a test method with descriptive name
+3) Create a failure case
+4) Test for success
+5) Implement the production code/functionality to make the test pass.
+
+Tesing spec:
+
+======================================================
+Recipe model:
+======================================================
+ name: string
+ summary: text
+ description: text
+ 
+ 1) name must be present
+ 2) name must be between 5 and 100 characters
+    a) name must be more than 4 characters
+    b) name must be less than 101 characters
+ 3) summary must be present
+ 4) summary must be between 10 and 150 characters
+    a) summary must be more than 9 characters
+    b) summary must be less than 151 characters
+ 5) description must be present
+ 6) description must be between 20 and 500 characters
+    a) description must be more than 19 characters
+    b) description must be less than 501 characters
+ 7) chef_id must be present
+ 
+ ======================================================
+ Chef model
+ ======================================================
+  name: string   
+  email: string
+  
+  0) test chef object must be valid
+  1) chefname must be present
+  2) chefname must be between 3 and 40 characters 
+     2a) chefname must be more than 2 characters
+     2b) chefname must be less than 41 characters
+  3) email must be present
+  4) email must be between 3 and 100 characters 
+     a) email must be more than 2 characters
+     b) email must be less than 101 characters
+  5) email must be unique (since we'll use this for logins later)
+  6) email must be valid
