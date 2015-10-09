@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MyRecipes: 11.55 \workspace\app</title>
+  <title>MyRecipes: 5.0 \workspace\app</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -13,8 +13,10 @@
   
   <% #Body %>
   <div class="container">
-  <% #Auto include all files under views/layouts/ %>
-  <%= yield %>
+    <% #Error messages %>
+    <%= render 'layouts/messages' %>
+    <% #Auto include all files under views/layouts/ %>
+    <%= yield %>
   </div>
 
   <% #Common footer %>

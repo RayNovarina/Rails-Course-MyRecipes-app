@@ -1,5 +1,5 @@
 class Recipe < ActiveRecord::Base
-  belongs_to :chefs
+  belongs_to :chef
 
   validates :name,        presence: true, length: { minimum:  5, maximum: 100 }
   
