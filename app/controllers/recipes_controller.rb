@@ -2,7 +2,7 @@ class RecipesController < ApplicationController
   # A frequent practice is to place the standard CRUD actions in each controller in the following order: 
   #   index, show, new, edit, create, update and destroy.
   def index()
-    @recipes = Recipe.all
+    @recipes = Recipe.paginate(page: params[:page], per_page: 4)
   end
   
   def show()
@@ -46,6 +46,18 @@ class RecipesController < ApplicationController
   
   def destroy()
     
+  end
+  
+  def like()
+    @recipe = Recipe.find(params[:id])
+    like = Like.create(like: params[:like], chef: Chef.first, recipe: @recipe)
+    if like.valid?
+      flash[:success] = "Your selection was successful"
+      redirect_to :back
+    else
+      flash[:danger] = "You can only like/dislike a recipe once"
+      redirect_to :back
+    end
   end
   
   private 
