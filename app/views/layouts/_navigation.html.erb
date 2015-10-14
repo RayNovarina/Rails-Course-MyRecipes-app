@@ -4,13 +4,44 @@
   <div class="container">
     <%= link_to "MyRecipes", root_path, class: "btn btn-lg btn-success", id: "logo" %>
     <div class="nav_item">
-      <%= link_to "Home",  root_path, class: "btn btn-default btn-warning" %>
+      <%= link_to "All Chefs",  chefs_path, class: "btn btn-default btn-warning" %>
     </div>
     <div class="nav_item">
-      <%= link_to "All Recipes",  recipes_path, class: "btn btn-default btn-warning" %>
-    </div> 
-    <div class="nav_item">
-      <%= link_to "New Recipe",  new_recipe_path, class: "btn btn-default btn-warning" %>
+      <%= link_to "All Recipes", recipes_path, class: "btn btn-default btn-warning" %>
     </div>
+         
+    <% if logged_in? %>
+         <div class="nav_item">
+           <%= link_to "New Recipe",  new_recipe_path, class: "btn btn-default btn-warning" %>
+         </div>
+         <ul class="nav_item">
+           <li class="dropdown">
+             <%= link_to "#", class: "btn btn-default btn-danger dropdown-toggle", "data-toggle" => "dropdown" do %>
+               <%= current_user.name %> <b class="caret"></b>
+             <% end %>
+             <ul class="dropdown-menu">
+               <li><%= link_to "View Profile", chef_path(current_user) %></li>
+               <li><%= link_to "Edit Profile", edit_chef_path(current_user) %></li>
+               <li class="divider"></li>
+               <li><%= link_to "Logout", logout_path %></li>
+             </ul>
+           </li>
+         </ul>
+    <% else %>     
+         <div class="nav_item">
+           <%= link_to "Log In",  login_path, class: "btn btn-default btn-success" %>
+         </div>
+    <% end %>
+
+    <% 
+    #<div class="nav_item">
+    #  <%= link_to  ( "Session.chef_id: " + session[:chef_id].to_s +
+    #                 ".   logged_in? returns: " + logged_in?.to_s +
+    #                 ".   current_user returns: " + ( current_user() == nil ? "NIL" : "Chef.name:" + (Chef.find(session[:chef_id])).name )
+    #               ),
+    #              "",
+    #              class: "btn btn-default btn-warning" %#>
+    #</div>
+    %>
   </div>
 </header>

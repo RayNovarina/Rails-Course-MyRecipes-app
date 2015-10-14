@@ -1,0 +1,24 @@
+
+<%= render 'shared/page_title', title: 'All Chefs'  %>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 center">
+    <%= will_paginate @chefs %><%= render 'shared/paginationInfo', obj: @pagination %>
+  </div>
+</div>
+
+<% @chefs.each do |chef| %>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4 center" title = "<%= chef.email %>">
+      <%= link_to gravatar_for(chef, size: 200), chef_path(chef) %>
+      <p>
+        <h5>Chef name: <%= chef.name %></h5>
+        <h5>Recipes: <%= chef.recipes.size %> &nbsp; 
+            Likes: <i class="glyphicon glyphicon-thumbs-up"></i>  <%= chef_likes(chef, "up").to_s %> &nbsp;&nbsp;
+                   <i class="glyphicon glyphicon-thumbs-down"></i> <%= chef_likes(chef, "down").to_s %>
+        </h5>
+      </p>
+      <br/>
+    </div>
+  </div>
+<% end %>

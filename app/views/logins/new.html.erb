@@ -1,0 +1,21 @@
+<%= render 'shared/page_title', title: 'Log in' %>
+
+<div class="row">
+  <div class="well col-md-6 col-md-offset-3">
+    <% # use form tag and not the form_for helper because this is not "data backed" and we don't have a model instance variable, so we hand
+       # build it.
+    %>
+    <% # specify route POSTed form is submitted to. %>
+    <%= form_tag '/login' do %>
+    
+      <%= label_tag :email %>
+      <%= text_field_tag :email %>
+      
+      <%= label_tag :password %>
+      <%= password_field_tag :password %>
+      
+      <%= submit_tag 'Login', class: 'btn btn-success' %>
+
+    <% end %>
+  </div>
+</div>

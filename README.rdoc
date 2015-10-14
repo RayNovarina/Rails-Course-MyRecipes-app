@@ -1,3 +1,19 @@
+Authentication:
+
+What we have already:
+ - Chef model and validations
+  - chef table with columns name and email
+  
+What we need to do:
+ # Add passwords to the chefs table so chefs can be authenticatedand logged in
+ # Use email as log in credentials, since email is unique
+ # Ability to register new chefs to use the app
+ - Ability to display chefs profile
+ - Ability to list chefs using the app
+ - Ability for chefs to log in and log out of the app
+* if logged_in? && @recipe.chef == current_user
+
+=================================================
 TDD: Test Driven Development
 1) Spec it out
 2) Define a test method with descriptive name
