@@ -19,9 +19,13 @@
       <%= image_tag(@recipe.picture.url, class: "gravatar") if @recipe.picture? %>
     </div>
     <div class="well">
-      <% # render from partials and interate through all items %>
-      <p>Styles: <%= render @recipe.styles %></p>
-      <p>Ingredients: <%= render @recipe.ingredients %></p>
+      <% if @recipe.styles.any? %>
+        <% # render from partials and interate through all items %>
+        <p>Styles: <%= render @recipe.styles %></p>
+      <% end %>
+      <% if @recipe.ingredients.any? %>
+        <p>Ingredients: <%= render @recipe.ingredients %></p>
+      <% end %>
       <p>
         <strong>Steps:</strong>
       </p>
