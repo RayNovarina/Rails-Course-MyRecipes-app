@@ -4,8 +4,8 @@ class RecipesController < ApplicationController
   before_action :set_recipe, only: [:edit, :update, :show, :like]
   before_action :require_user, except: [:show, :index, :like]
   before_action :require_user_like, only: [:like]
-  before_action :require_same_user, only: [:edit, :update]
-  
+  before_action :require_same_user_or_admin, only: [:edit, :update]
+  before_action :admin_user, only: :destroy
   
   # A frequent practice is to place the standard CRUD actions in each controller in the following order: 
   #   index, show, new, edit, create, update and destroy.
@@ -55,7 +55,9 @@ class RecipesController < ApplicationController
   end
   
   def destroy()
-    
+    Recipe.find(params[:id]).destroy()
+    flash[:success] = "Recipe Deleted"
+    redirect_to recipes_path
   end
   
   def like()
@@ -86,9 +88,9 @@ class RecipesController < ApplicationController
     end
     
     # Returns true/false. True = logged in user is owner/Chef of the Recipe object that is the target of this action.
-    def require_same_user
+    def require_same_user_or_admin
       # Note: set_recipe has already been executed first because of before_action above and @recipe object now exists.
-      if current_user != @recipe.chef
+      if (current_user != @recipe.chef) && !current_user.admin?
         flash[:danger] = "You can only edit your own recipes"
         redirect_to recipes_path
       else 
@@ -102,6 +104,10 @@ class RecipesController < ApplicationController
         flash[:danger] = "You must be logged in to perform that action"
         redirect_to :back
       end
+    end
+    
+    def admin_user
+      redirect_to recipes_path unless current_user.admin?
     end
 
 end
