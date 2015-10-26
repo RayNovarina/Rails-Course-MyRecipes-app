@@ -1,5 +1,9 @@
 
 <%= render 'shared/page_title', title: @recipe.name %>
+  
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
+<br><br>
 
 <div class="row">
   
@@ -19,7 +23,7 @@
     <% end %>
     <h3><%= @recipe.summary %></h3>
     <div class="show_recipe">
-      <%= image_tag(@recipe.picture.url, class: "gravatar") if @recipe.picture? %>
+      <%#= image_tag(@recipe.picture.url, class: "gravatar") if @recipe.picture? %>
     </div>
     <div class="well">
       <% if @recipe.styles.any? %>
@@ -42,14 +46,38 @@
         <% end %>
       </div>
     </div>
+    <hr/>
+  </div>
+</div> 
+ 
+<div class="row">
+  <div class="col-md-8 reviews_heading">
+    <%# if logged_in? %>
+      <%= link_to "New Review", new_recipe_review_path(@recipe), class: "btn btn-warning pull-right center" %>
+    <%# end %>
+    <label>Reviews<%= @reviews.any? ? "" : " (0)" %></label>
+    <span>
+      <%= will_paginate @reviews %>                  
+    </span>
   </div>
 </div>
 
+<% @reviews.each do |review| %>
+<div class="row">
+  <div class="col-md-6 reviews">
+    <div class="well">
+      <span>
+      <% # if logged_in? %>
+        <% # "Edit", edit_recipe_review_path(recipe_id: @recipe, id: review) %>
+        <%= link_to("Edit", edit_review_path(review), class: "btn btn-success") %>
+      <% # end %>
+      </span> 
+      <label>Reviewed by:&nbsp;&nbsp;<%= link_to(review.chef.name, chef_path(review.chef)) %></label>
+      <span class='quiet'><small>&nbsp;&nbsp;<%= time_ago_in_words(review.created_at) %> ago </small></span>
+      <%= simple_format(review.description) %>
+    </div>
+  </div>
+</div> 
+<% end %>
 
-<h5>
-  <%= link_to("Back",                  :back,      class: "btn btn-warning btn-small") %>
-  <% if logged_in? %>
-    <%= link_to("DELETE",                    recipe_path(@recipe),      class: "btn btn-danger btn-small",
-                                             method: :delete, data: { confirm: 'Are you sure?' }           ) %>
-  <% end %>
-</h5>
+

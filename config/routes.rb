@@ -15,16 +15,23 @@ Rails.application.routes.draw do
 
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-  resources :chefs, except: [:new, :destroy]
-    get '/register', to: 'chefs#new'
-  
-  
+  resources :chefs, except: [:new, :destroy] do
+    
+   #resources :recipes, only: [:index]   # chef_recipes_path    url: /chefs/:chef_id/recipes  -> recipes#index
+    resources :recipes, only: [:index], to: 'chefs#recipes'   # chef_recipes_path    url: /chefs/:chef_id/recipes  -> chefs#recipes
+    resources :reviews, only: [:index]   # chef_reviews_path    url: /chefs/:chef_id/reviews  -> reviews#index
+    resources :likes, only: [:index]     # chef_likes_path      url: /chefs/:chef_id/likes    -> likes#index
+    #get '/recipes', to: 'recipes#index' # chef_recipes_path    url: /chefs/:chef_id/recipes  -> recipes#index
+  end
+  get '/register', to: 'chefs#new'       # register_path        url: /register                -> chefs#new 
   
   resources :recipes do
     member do
       post "like"
     end
-  
+    resources :reviews, only: [:index,         # recipe_reviews_path         url: /recipes/:recipe_id/reviews        -> reviews#index
+                               :new]#,         # recipe_reviews_new_path     url: /recipes/:recipe_id/reviews/new    -> reviews#new
+                               #:create]       # recipe_reviews_create_path  url: /recipes/:recipe_id/reviews/create -> reviews#create
   end
   
   resources :logins, except: [:index, :show, :new, :edit, :create, :update, :destroy]
@@ -34,7 +41,7 @@ Rails.application.routes.draw do
     
   resources :styles, only: [:new, :create, :show]
   resources :ingredients, only: [:new, :create, :show]
-  
+  resources :reviews, except: [:new] # new action handled via recipes because review is based on recipe, needs recipe_id
   
   # Example resource route with options:
   #   resources :products do

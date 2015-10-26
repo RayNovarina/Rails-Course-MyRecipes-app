@@ -10,12 +10,19 @@ class RecipesController < ApplicationController
   # A frequent practice is to place the standard CRUD actions in each controller in the following order: 
   #   index, show, new, edit, create, update and destroy.
   def index()
+    #if url = /chefs/chef_id/recipes
+    #if params.has_key?(:chef_id)
+    #  redirect_to chef_path(Chef.find(params[:chef_id]))
+    #end
     @recipes = Recipe.paginate(page: params[:page], per_page: 4)
-    @pagination = pagination(Recipe.all, 4, params)
+    @pagination = nil #paginationInfo(Recipe.all, 4, params)
+
   end
   
   def show()
     # Note: set_recipe has already been executed first because of before_action above and @recipe object now exists.
+    @reviews = @recipe.reviews.paginate(page: params[:page], per_page: 2)
+    #binding.pry
   end
   
   def new()

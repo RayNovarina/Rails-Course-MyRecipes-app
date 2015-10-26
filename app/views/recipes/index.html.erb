@@ -1,19 +1,15 @@
 <%= render 'shared/page_title', title: "All Recipes" %>
+  
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
 
-<ul class="nav nav-tabs">
-  <li class="active">
-    <%= link_to "Recipes", recipes_path %>
-  </li>
-  <li>
-    <%= link_to "Chefs", chefs_path %>
-  </li>
-</ul>
-
-<%= will_paginate %>
+<div class="recipes_index_top_pagination">
+  <%= will_paginate %>
+</div>
+  
 
 <% @recipes.each do |recipe| %>
   <div class="row">
-  
     <div class="col-md-2">
       <section class="chef_info center" title = "<%= recipe.chef.email %>" >
         <%= link_to(gravatar_for(recipe.chef, size: 100), chef_path(recipe.chef)) %>
@@ -35,6 +31,9 @@
           <span class='quiet'><small> created: <%= time_ago_in_words(recipe.created_at) %> ago, </small></span>
           <span class='quiet'><small> updated: <%= time_ago_in_words(recipe.updated_at) %> ago</small></span>
       </p>
+      <div class="pull-left">
+        <%= link_to (recipe_reviews_path(recipe)) do "Reviews (" + recipe.reviews.size.to_s + ")"  end %>
+      </div>
       <div class="pull-right">
         <%= link_to like_recipe_path(recipe, like: true), method: :post do %>
           <i class="glyphicon glyphicon-thumbs-up"></i> &nbsp; <%= recipe.thumbs_up_total() %>

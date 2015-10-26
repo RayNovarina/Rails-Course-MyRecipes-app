@@ -1,0 +1,173 @@
+
+<% #Common header nav bar using Bootstrap  %>
+<header class="navbar navbar-fixed-top navbar-default">
+  <div class="container">
+    
+    <%= link_to "Ruby Recipes", root_path, class: "btn btn-lg btn-success", id: "logo", title: "Home" %>
+    
+    <ul class="nav_ul_item">
+      <li class="dropdown">
+        <%= link_to "#", class: "btn btn-default btn-danger dropdown-toggle", "data-toggle" => "dropdown" do %>
+          <span title="Display all Recipes of the specified Style">Styles</span> <b class="caret"></b>
+        <% end %>
+        <ul class="dropdown-menu">
+          <% Style.all.each do |style| %>
+            <li><%= link_to style.name, style_path(style) %></li>
+          <% end %>
+          <% if logged_in? %>
+            <li class="divider"></li>
+            <li>
+              <%= link_to(new_style_path) do %>
+                New Style
+              <% end %>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <%= link_to styles_path(edit: true) do %>
+                Edit Style 
+              <% end %></li>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+    
+    <ul class="nav_ul_item">
+      <li class="dropdown">
+        <%= link_to "#", class: "btn btn-default btn-danger dropdown-toggle", "data-toggle" => "dropdown" do %>
+          <span title="Display all Recipes of the specified Category">Categories</span> <b class="caret"></b>
+        <% end %>
+        <ul class="dropdown-menu">
+          
+          <% #Style.all.each do |category| %>
+          <% ["Breakfast", "Lunch", "Dinner", "Desert"].each do |category| %>
+            <% #<li><%= link_to style.name, style_path(style) %#></li>%>
+            <li><%= link_to category, style_path(Style.first) %></li>
+          <% end %>
+          <li class="divider"></li>
+          <li class="dropdown-submenu">
+            <%= link_to "#", class: "dropdown-toggle", "data-toggle" => "dropdown" do %>
+              <span title="Display all Recipes of the specified Time to Prepare">Time to Prepare</span></b>
+            <% end %>
+            <ul class="dropdown-menu">
+              <% ["Less than 30 mins", "Less than one hour", "More than an hour"].each do |time2prep| %>
+                <li><%= link_to time2prep, style_path(Style.first) %></li>
+              <% end %>
+              <% if logged_in? %>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to(new_ingredient_path) do %>
+                    New Time to Prepare
+                  <% end %>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to styles_path(edit: true) do %>
+                    Edit Time to Prepare
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+          
+          <li class="divider"></li>
+          <li class="dropdown-submenu">
+            <%= link_to "#", class: "dropdown-toggle", "data-toggle" => "dropdown" do %>
+              <span title="Display all Recipes with the specified Dietary Restriction">Dietary Restrictions</span></b>
+            <% end %>
+            <ul class="dropdown-menu">
+              <% ["Low Fat", "Vegetarian", "Vegan", "Gluten Free"].each do |diet| %>
+                <li><%= link_to diet, style_path(Style.first) %></li>
+              <% end %>
+              <% if logged_in? %>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to(new_ingredient_path) do %>
+                    New Dietary Restriction
+                  <% end %>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <%= link_to styles_path(edit: true) do %>
+                    Edit Dietary Restriction
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+          
+          <% if logged_in? %>
+            <li class="divider"></li>
+            <li>
+              <%= link_to(new_ingredient_path) do %>
+                New Category
+              <% end %>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <%= link_to styles_path(edit: true) do %>
+                Edit Category 
+              <% end %>
+            </li>
+          <% end %>
+          
+        </ul>
+      </li>
+    </ul>
+    
+    <ul class="nav_ul_item">
+      <li class="dropdown" title = "Display all Recipes using the specified Ingredient">
+        <%= link_to "#", class: "btn btn-default btn-danger dropdown-toggle", "data-toggle" => "dropdown" do %>
+          Ingredients <b class="caret"></b>
+        <% end %>
+        <ul class="dropdown-menu">
+          <% Ingredient.all.each do |ingredient| %>
+            <li><%= link_to ingredient.name, ingredient_path(ingredient) %></li>
+          <% end %>
+          <% if logged_in? %>
+               <li class="divider"></li>
+               <li><%= link_to(new_ingredient_path) do %>
+                   New Ingredient <% end %>
+               </li>
+               <li class="divider"></li>
+               <li>
+                  <%= link_to ingredients_path(edit: true) do %>
+                    Edit Ingredient 
+                  <% end %>
+               </li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+    
+    <% if logged_in? %>
+         <div class="nav_item">
+           <%= link_to "New Recipe",  new_recipe_path, class: "btn btn-default btn-warning" %>
+         </div>
+         <ul class="nav_item">
+           <li class="dropdown">
+             <%= link_to "#", class: "btn btn-default btn-danger dropdown-toggle", "data-toggle" => "dropdown" do %>
+               <%= current_user.name %> <b class="caret"></b>
+             <% end %>
+             <ul class="dropdown-menu">
+               <li><%= link_to "View Profile", chef_path(current_user) %></li>
+               <li><%= link_to "Edit Profile", edit_chef_path(current_user) %></li>
+               <li><%= link_to "My Recipes", chef_recipes_path(current_user) %></li>
+               <li><%= link_to "Voting Results", chef_likes_path(current_user), title: "List my Recipes, most popular first." %></li>
+               <li><%= link_to "Reviews I have given", chef_reviews_path(current_user, given: true), \
+                               title: "List recipes I have reviewed, most recently first. Includes my review." %></li>
+               <li><%= link_to "Reviews I have receieved", chef_reviews_path(current_user, given: false), \
+                               title: "List my recipes that have received a review. Includes those reviews." %></li>
+               <li class="divider"></li>
+               <li><%= link_to "Logout", logout_path %></li>
+             </ul>
+           </li>
+         </ul>
+    <% else %>     
+         <div class="nav_item">
+           <%= link_to "Log In",  login_path, class: "btn btn-default btn-success" %>
+         </div>
+    <% end %>
+
+  </div>
+</header>

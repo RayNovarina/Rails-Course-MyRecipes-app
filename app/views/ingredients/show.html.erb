@@ -1,20 +1,20 @@
-<%= render 'shared/page_title', title: "Recipes for : " + @ingredient.name %>
+<%= render 'shared/page_title', title: "Recipes using : " + @ingredient.name %>
+ 
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
 
-<ul class="nav nav-tabs">
-  <li class="active">
-    <%= link_to "Recipes", recipes_path %>
-  </li>
-  <li>
-    <%= link_to "Chefs", chefs_path %>
-  </li>
-</ul>
+<div class="ingredients_recipes_index_top_pagination">
+  <%= will_paginate @recipes %>
+</div>
 
-<%= will_paginate @recipes %>
 
 <% @ingredient.recipes.each do |recipe| %>
   <div class="row">
   
     <div class="col-md-2">
+      <% if !recipe.chef %>
+      <%   binding.pry %>
+      <% end %>
       <section class="chef_info center" title = "<%= recipe.chef.email %>" >
         <%= link_to(gravatar_for(recipe.chef, size: 100), chef_path(recipe.chef)) %>
         <h5>Chef name: <%= recipe.chef.name %></h5>

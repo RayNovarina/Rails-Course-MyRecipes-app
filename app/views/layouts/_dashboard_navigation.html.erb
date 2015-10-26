@@ -1,0 +1,16 @@
+<% #Common dashboard/sandbox container nav bar  %>
+ 
+<ul class="nav nav-tabs">
+  <li class="active">
+    <%= link_to "Back", :back %>
+  </li>
+  <li>
+    <%= link_to "Recipes", recipes_path, title: "All Recipes sorted by newest and most recently updated." %>
+  </li>
+  <li>
+    <%= link_to "Chefs", chefs_path, title: "All Chefs sorted by the most thumbs up votes." %>
+  </li>
+  <li>
+    <%= link_to "Reviews", recipes_path, title: "All Reviews sorted by the Chefs with the most most thumbs up votes." %>
+  </li>
+</ul>

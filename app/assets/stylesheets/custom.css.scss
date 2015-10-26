@@ -43,6 +43,45 @@ body {
   margin-top: 20px;
 }
 
+.dropdown-submenu {
+    position:relative;
+}
+.dropdown-submenu>.dropdown-menu {
+    top:0;
+    left:100%;
+    margin-top:-6px;
+    margin-left:-1px;
+    -webkit-border-radius:0 6px 6px 6px;
+    -moz-border-radius:0 6px 6px 6px;
+    border-radius:0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+    display:block;
+}
+.dropdown-submenu>a:after {
+    display:block;
+    content:" ";
+    float:right;
+    width:0;
+    height:0;
+    border-color:transparent;
+    border-style:solid;
+    border-width:5px 0 5px 5px;
+    border-left-color:#cccccc;
+    margin-top:5px;
+    margin-right:-10px;
+}
+.dropdown-submenu.pull-left {
+    float:none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left:-100%;
+    margin-left:10px;
+    -webkit-border-radius:6px 0 6px 6px;
+    -moz-border-radius:6px 0 6px 6px;
+    border-radius:6px 0 6px 6px;
+}
+
 .center {
   text-align: center;
 }
@@ -115,4 +154,58 @@ span.picture {
 
 .show_recipe {
   margin: 10px 10px 10px 10px;
+}
+
+/*recipes/views/show.html.erb*/
+.reviews_heading {
+  margin-top: 6px;
+  margin-bottom: 10px;
+  a { /*new recipe button*/
+  }
+  label { /*Reviews label*/
+    float: left;
+    font-size: 1.4em;
+    font-weight: bold;
+  }
+  span { /*will_paginate pagination*/
+    margin-left: 100px;
+  }
+}
+
+
+/* views/recipes/index.html.erb, views/chefs/index.html.erb, views/ingredients/show.html.erb */
+.recipes_index_top_pagination, .chefs_index_top_pagination, .ingredients_recipes_index_top_pagination {
+  div.pagination, div ul.pagination {
+      margin-top:    14px;
+      margin-bottom: 14px;
+  }
+}
+
+/* views/styles/show.html.erb, views/chefs/show.html.erb, views/reviews/index.html.erb */
+.styles_recipes_index_top_pagination, .chefs_recipes_index_top_pagination, .reviews_chef_index_top_pagination  {
+  div.pagination, div ul.pagination {
+      margin-top:    4px;
+      margin-bottom: 14px;
+  }
+}
+
+
+
+/* GLOBAL: override Bootstrap pagination styling*/
+div.pagination, div ul.pagination {
+  margin: 0px;
+  padding: 0px;
+}
+
+/*recipes/views/show.html.erb*/
+.reviews {
+  span a { /*edit button*/
+    float: right;
+  }
+  label { /*Reviewed By: */
+    font-size: 1em;
+  }
+  label a { /*Chef name link*/
+    font-size: 1.2em;
+  }
 }

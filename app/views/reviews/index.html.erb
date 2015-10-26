@@ -1,0 +1,60 @@
+<% # Show chef profile: (inputs: @chef -> Chef object)
+#  1. Page title
+#  2. Picture/gravatar of chef
+#  3. Summary list of reviews by this chef or for this chef
+%>
+
+<%= render 'shared/page_title', title: ( \
+              @options[:forChef] \
+                  ? ('Chef: ' + @options[:obj_chef].name) \
+                  : @options[:forRecipe] \
+                        ? ('Recipe: ' + @options[:obj_recipe].name) \
+                        : 'Reviews for ???'
+            ) 
+%>
+  
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
+<br>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 center reviews_chef_index_top_pagination">
+    <h3><em>Reviews <%= (@options[:filter_by_given] ? "(given by me)" : @options[:filter_by_recieved] ? "(received by my recipes)" : "") \
+                        + ", most recent first"
+                    %>
+          <%#<h5><%#= render 'shared/paginationInfo', obj: @pagination %><%#</h5>%>
+   </em></h3>
+    <%= will_paginate @reviews %>
+  </div>
+</div>
+
+<% @reviews.each do |review| %>
+<div class="row">   
+  <div class="col-lg-6 well col-lg-offset-3">
+    <%
+      #if !review.recipe || !review.recipe.chef
+      #  binding.pry
+      #end
+    %>
+    <h4><%= link_to(review.recipe.name, recipe_path(review.recipe)) %>
+      <%= @options[:filter_by_given] ? (" by Chef: " + review.recipe.chef.name) : "" %>
+    </h4>
+    <%= review.recipe.summary %>
+    <strong>____________________________________________________________________</strong>
+    <h4>
+      <%= @options[:filter_by_given] ? "My Review" : ("Reviewed by " + review.chef.name) %>
+         &nbsp;<small><%= time_ago_in_words(review.updated_at) %> ago:</small>
+       <%= link_to "edit", edit_review_path(review), class: "btn btn-success pull-right" %>
+      </h4>
+    <p>
+      <%= review.description %>
+    </p>
+  </div>
+</div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4 center">
+    <%= will_paginate @reviews %>
+  </div>
+</div>

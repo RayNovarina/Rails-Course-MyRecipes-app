@@ -1,0 +1,46 @@
+
+<%= render 'shared/errors', obj: @review %>
+  
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
+
+<div class="row">
+  <br/><br/>
+  <div class="well col-md-8 col-md-offset-2">
+    <%= form_for @review do |f| %>
+      <%= f.label "My Review for " + @review.recipe.name.capitalize %>
+      <%= f.text_area :description, rows: 10 %>
+      
+      <%= hidden_field_tag :chef_id, @review.chef.id %>
+      <%= hidden_field_tag :recipe_id, @review.recipe.id %>
+      
+      <%= f.submit(@review.new_record? ? 'Create Review' : 'Edit Review', class: "btn btn-success") %>
+      
+      <% if false #!@review.new_record? %>
+        
+          <%= link_to "Delete Review", @review, method: :delete, class: "btn btn-danger" , data: { confirm: "Are you sure?" } %> 
+        
+        <%#= f.submit('Delete Review', @recipe, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger") %>
+      <% end %>
+      
+    <% end %>
+  </div>
+</div>
+
+<% if !@review.new_record? %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2 center">
+          <%= link_to "Delete Review", @review, method: :delete, class: "btn btn-danger" , data: { confirm: "Are you sure?" } %> 
+  </div>
+</div>
+<% end %>
+
+<% if false #!@review.new_record? %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <%= button_to "Delete Review", { action: :delete, id: @review.id }, class: "btn btn-danger",
+                                method: :delete, data: { confirm: "Are you sure?" } %>
+  </div>
+</div>
+<% end %>
+      

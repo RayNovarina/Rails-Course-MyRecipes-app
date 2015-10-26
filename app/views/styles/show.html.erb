@@ -1,15 +1,12 @@
 <%= render 'shared/page_title', title: "Recipes for : " + @style.name + " food"%>
+ 
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
+<br>
 
-<ul class="nav nav-tabs">
-  <li class="active">
-    <%= link_to "Recipes", recipes_path %>
-  </li>
-  <li>
-    <%= link_to "Chefs", chefs_path %>
-  </li>
-</ul>
-
-<%= will_paginate @recipes %>
+<div class="styles_recipes_index_top_pagination">
+  <%= will_paginate @recipes %>
+</div>
 
 <% @style.recipes.each do |recipe| %>
   <div class="row">

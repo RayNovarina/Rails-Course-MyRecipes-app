@@ -1,6 +1,10 @@
 <%= render 'shared/errors', obj: @recipe %>
+  
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
 
 <div class="row">
+  <br/><br/>
   <div class="well col-md-8 col-md-offset-2">
     <%= form_for(@recipe, html: { multipart: true }) do |f| %>
       <%= f.label :name %>
