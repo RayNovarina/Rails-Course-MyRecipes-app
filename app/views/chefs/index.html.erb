@@ -11,7 +11,7 @@
 <% @chefs.each do |chef| %>
   <div class="row">
     <div class="col-md-2">
-      <section class="chef_info center" title = "<%= chef.email %>" >
+      <section class="chef_info center" title = "<%#= chef.email %>" >
         <%= link_to(gravatar_for(chef, size: 160), chef_path(chef)) %>
       </section>
     </div>

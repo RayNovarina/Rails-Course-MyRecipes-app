@@ -12,7 +12,7 @@
   <div class="row">
   
     <div class="col-md-2">
-      <section class="chef_info center" title = "<%= recipe.chef.email %>" >
+      <section class="chef_info center" title = "<%#= recipe.chef.email %>" >
         <%= link_to(gravatar_for(recipe.chef, size: 100), chef_path(recipe.chef)) %>
         <h5>Chef name: <%= recipe.chef.name %></h5>
       </section>
