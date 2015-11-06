@@ -9,8 +9,9 @@
       <span title="Display all Recipes in the specified order">Recipes</span> <b class="caret"></b>
     <% end %>
     <ul class="dropdown-menu">
-      <li><%= link_to "By Name", recipes_path(sort_by: "name"), title: "Alphabetically by first letter" %></li>
-      <li><%= link_to "Most Recent", recipes_path(sort_by: "recent"), title: "Most recently added or updated." %></li>
+      <li><%= link_to "By Name",      recipes_path(sort_by: "name"), title: "Alphabetically by first letter" %></li>
+      <li><%= link_to "By Chef",      recipes_path(sort_by: "chef"), title: "Alphabetically by first letter for each Chef" %></li>
+      <li><%= link_to "Most Recent",  recipes_path(sort_by: "recent"), title: "Most recently added or updated." %></li>
       <li><%= link_to "Most Popular", recipes_path(sort_by: "popular"), title: "Receiving the most thumbs up votes." %></li>
       <li><%= link_to "Most Reviews", recipes_path(sort_by: "reviews"), title: "Receiving the most reviews." %></li>
     </ul>

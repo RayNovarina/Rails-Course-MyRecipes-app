@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     
     if options[:b_return_list]
       if options[:b_filter_by]
-        #recipes_list = Chef.find(options[:chef_id]).recipes.where("recipes.likes.like = ?", true)
+        # recipes for this chef which have been given a thumbs up or down  
         recipes_list = Recipe.where("recipes.chef_id = ?", options[:chef_id]) \
                              .joins(:likes).where("likes.like = ?", options.has_key?(:b_filter_by_likes)) \
                              .reorder(options[:reorder_clause])
@@ -43,8 +43,26 @@ class ApplicationController < ActionController::Base
         # get list of recipes for specified style.
         recipes_list = Recipe.all.joins(:styles).where("styles.id = ?", options[:style_id]).reorder(options[:reorder_clause])
       else 
-        # get list of all recipes
-        recipes_list = Recipe.all.reorder(options[:reorder_clause])
+        # get list of all recipes.
+        if options[:b_order_by_chef]
+          # Recipes are listed for each Chef. Chefs are list alphabetically.
+          recipes_list = Recipe.all.joins("left join chefs on chefs.id = recipes.chef_id") \
+                                   .reorder("chefs.name ASC") \
+                                   .order(options[:reorder_clause])
+        elsif options[:b_order_by_popular]
+          # Recipes are list by number of thumbs up votes. Most is first.
+          recipes_list = Recipe.all.joins(:likes).where("likes.like = ?", "t") \
+                                   .select("recipes.*, count(likes.like) as num_votes").group("recipes.id") \
+                                   .reorder("num_votes DESC").order(options[:reorder_clause])
+        elsif options[:b_order_by_reviews]
+          # Recipes are list by number of reviews for each recipe. Most is first.
+          recipes_list = Recipe.all.joins(:reviews) \
+                                   .select("recipes.*, count(reviews.id) as num_reviews").group("recipes.id") \
+                                   .reorder("num_reviews DESC").order(options[:reorder_clause])
+        else
+          # in order calculated by defaults
+          recipes_list = Recipe.all.reorder(options[:reorder_clause])
+        end
       end
     end
     
@@ -78,14 +96,15 @@ class ApplicationController < ActionController::Base
   
   def set_model_recipes_order_by_clause(options)
     if options[:b_order_by]
-      options[:reorder_clause] = "recipes." + (options[:b_order_by_updated] ? "updated_at DESC": "name ASC")
+      options[:reorder_clause] = "recipes." + (   options[:b_order_by_updated] ? "updated_at DESC" : "name ASC")
     end
     options[:title] = "All Recipes"
     if params.has_key?(:sort_by)
-      options[:title] += (  options[:b_order_by_name]    ? " by Name"  
-                          : options[:b_order_by_updated] ? " by Most Recent"
-                          : options[:b_order_by_popular] ? " by Most Popular"
-                          : options[:b_order_by_reviews] ? " by Most Reviews"
+      options[:title] += (  options[:b_order_by_name]    ? " by: Name"  
+                          : options[:b_order_by_chef]    ? " by: Chef"
+                          : options[:b_order_by_updated] ? " by: Most Recent"
+                          : options[:b_order_by_popular] ? " by: Most Popular"
+                          : options[:b_order_by_reviews] ? " by: Most Reviews"
                           : ""
                          )
     end
@@ -138,8 +157,8 @@ class ApplicationController < ActionController::Base
     end
     options[:title] = "All Chefs"
     if params.has_key?(:sort_by)
-      options[:title] += (  options[:b_order_by_name]    ? " by Name"  
-                          : options[:b_order_by_popular] ? " by Most Popular"
+      options[:title] += (  options[:b_order_by_name]    ? " by: Name"  
+                          : options[:b_order_by_popular] ? " by: Most Popular"
                           : ""
                          )
     end
@@ -716,6 +735,7 @@ class ApplicationController < ActionController::Base
         if options[:b_order_by] ||= ( options.has_key?(:order_by) || options.has_key?(:order_by_direction) || params.has_key?(:sort_by))
           options[:order_by] ||= params[:sort_by]
           options[:b_order_by_name]    = options[:order_by] == "name"
+          options[:b_order_by_chef]    = options[:order_by] == "chef"
           options[:b_order_by_updated] = options[:order_by] == "recent"
           options[:b_order_by_popular] = options[:order_by] == "popular"
           options[:b_order_by_reviews] = options[:order_by] == "reviews"
