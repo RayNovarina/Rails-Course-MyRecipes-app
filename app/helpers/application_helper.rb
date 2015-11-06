@@ -1,4 +1,10 @@
 module ApplicationHelper
+ 
+  # Methods in this file are normally only available to views.
+  
+  #===========================
+  #         for VIEWS
+  #===========================
   def gravatar_for(chef, options = { size: 80} )
     gravatar_id = Digest::MD5::hexdigest(chef.email.downcase)
     size = options[:size]
@@ -18,18 +24,13 @@ module ApplicationHelper
   
     return { :begin => begin_item_num.to_s, :end => end_item_num.to_s, :per_page => items_per_page.to_s, :list_size => list_size.to_s }
   end
-
+ 
   # how many up or down votes have a chef's recipes received.
   def chef_recipes_likes(chef, type)
-    count = 0
-    chef.recipes.each do |recipe|
-      recipe.likes.each do |l| 
-        if (type == "up" && l.like) || (type == "down" && l.like == false)
-          count += 1
-        end
-      end
-    end
-    return count
+    options = { obj_chef: chef, b_thumbs_up_total: type == "up", b_thumbs_down_total: type =="down", b_forRecipes: true }
+    totals = model_likes(options)[3]
+    return (type == "up") ? totals[:thumbs_up_total]: totals[:thumbs_down_total]
+    
   end
-
+   
 end

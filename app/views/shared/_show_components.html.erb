@@ -1,0 +1,26 @@
+<%= render 'shared/page_title', title: title %>
+
+<% #Common dashboard/sandbox container nav bar  %>
+<%= render 'layouts/dashboard_navigation' %>
+
+<div class="recipes_index_top_pagination">
+  <%= will_paginate components %>
+</div>
+  
+<% components.each do |component| %>
+  <div class="row">
+    <div class="well col-md-8 col-md-offset-2">
+      <h3><%= component.name%></h3>
+      <%= link_to 'Edit or Delete ' + type, 
+          (   type == "Style"             ? edit_style_path(component)
+            : type == "Ingredient"        ? edit_ingredient_path(component)  
+            : type == "Category"          ? edit_category_path(component)  
+            : type == "Time to Prepare"   ? edit_preptime_path(component)  
+            : type == "Diet"              ? edit_diet_path(component)  
+            : nil
+          ),  class: "btn btn-success" %>
+    </div>
+  </div>
+<% end %>
+
+<%= will_paginate components %>

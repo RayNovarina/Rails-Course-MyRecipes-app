@@ -10,23 +10,23 @@ class RecipesController < ApplicationController
   # A frequent practice is to place the standard CRUD actions in each controller in the following order: 
   #   index, show, new, edit, create, update and destroy.
   def index()
-    #if url = /chefs/chef_id/recipes
-    #if params.has_key?(:chef_id)
-    #  redirect_to chef_path(Chef.find(params[:chef_id]))
-    #end
-    @recipes = Recipe.paginate(page: params[:page], per_page: 4)
-    @pagination = nil #paginationInfo(Recipe.all, 4, params)
-
+    @recipes, @options = model_recipes({})
+    @title = @options[:title]
+    # continue to /views/recipes/index.html.erb with @recipes, @title
   end
   
   def show()
     # Note: set_recipe has already been executed first because of before_action above and @recipe object now exists.
-    @reviews = @recipe.reviews.paginate(page: params[:page], per_page: 2)
-    #binding.pry
+    #@reviews = @recipe.reviews.paginate(page: params[:page], per_page: 2)
+    @reviews = model_reviews({
+        b_return_just_list: true,
+        page: params[:page], 
+        per_page: 2, 
+        obj_recipe: @recipe
+    })
   end
   
   def new()
-    #render template views/recipes/new.html.erb
     @recipe = Recipe.new()
     #Goto views/recipes/new.html.erb
   end
@@ -86,7 +86,8 @@ class RecipesController < ApplicationController
   private 
   
     def recipe_params()
-      params.require(:recipe).permit(:name, :summary, :description, :picture, style_ids: [], ingredient_ids: [])
+      params.require(:recipe).permit(:name, :summary, :description, :picture, style_ids: [], ingredient_ids: [] \
+                                     ,category_ids: [], preptime_ids: [], diet_ids: [])
     end
          
     # Returns the Recipe object for the recipe id specified in the url params.

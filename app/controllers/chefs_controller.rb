@@ -8,25 +8,24 @@ class ChefsController < ApplicationController
   # A frequent practice is to place the standard CRUD actions in each controller in the following order: 
   #   index, show, new, edit, create, update and destroy.
   def index()
-    @chefs = Chef.paginate(page: params[:page], per_page: 3)
-    @pagination = nil #pagination(Chef.all, 3, params)
+    @chefs, @options = model_chefs({})
+    @title = @options[:title]
+    # continue to /views/chefs/index.html.erb with @chefs, @title
   end
   
+
   # Display info about the chef and list the chef's recipes.
   # Url options - none:         list all recipes
   #              likes = true:  recipes that have received a thumbs up.
   #              likes = false: recipes that have received a thumbs down.
   def show()
-    options = { page: params[:page], 
-                per_page: 3, 
-                pagination_info: :true,
-                filter_by_likes: params.has_key?(:likes) && params[:likes] == "true" ? true : false,
-                filter_by_dislikes: params.has_key?(:likes) && params[:likes] == "false" ? true : false,
+    options = { b_filter_by_likes: params.has_key?(:likes) && params[:likes] == "true" ? true : false,
+                b_filter_by_dislikes: params.has_key?(:likes) && params[:likes] == "false" ? true : false,
                 obj_chef: @chef,
-                obj_params: params
               }
-    @recipes, @pagination = model_recipes_select( options )
-    # continue to /views/chefs/show.html.erb with @chef, @recipes
+    @recipes, @options = model_recipes( options )
+    @title = @options[:title]
+    # continue to /views/chefs/show.html.erb with @chef, @recipes, @options, @title
   end
   
   def recipes
@@ -92,40 +91,5 @@ class ChefsController < ApplicationController
         return true
       end
     end
-    
-      
-  # Inputs: 
-  #   HASH<options>
-  #     page:  Integer page num
-  #     per_page: Integer items per page 
-  #     pagination_info: Boolean
-  #     filter_by_likes: Boolean
-  #     filter_by_dislikes: Boolean
-  #     obj_chef: Chef object
-  #     chef_id: String
-  #     obj_params: url params Hash
-  # Returns:
-  #   ARRAY[ List of Recipe objects, pagination object ]
-  def model_recipes_select(options)
-    if !options.has_key?(:obj_chef) && !options.has_key?(:chef_id)
-      return [nil, nil]
-    end
-    
-    chef = options[:obj_chef]
-    chef_id = (chef == nil) ? options[:chef_id] : chef.id
-    
-    if (options.has_key?(:filter_by_likes) && options[:filter_by_likes] == true) \
-       || (options.has_key?(:filter_by_dislikes) && options[:filter_by_likes] == true)
-      recipes_list = Recipe.where("recipes.chef_id = ?", chef_id).joins(:likes).where("likes.like = ?", options.has_key?(:filter_by_likes)) 
-    else 
-      #recipes_list = (chef == nil) ? Chef.find(chef_id).recipes : chef.recipes
-      recipes_list = Recipe.where("recipes.chef_id = ?", chef_id)
-    end
-    
-    return [ recipes_list.paginate(page: options[:page], per_page: options[:per_page]), 
-             nil #pagination(recipes_list, options[:per_page], options[:obj_params])
-           ]
-  end
- 
 
 end

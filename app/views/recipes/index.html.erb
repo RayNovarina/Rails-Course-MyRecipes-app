@@ -1,4 +1,4 @@
-<%= render 'shared/page_title', title: "All Recipes" %>
+<%= render 'shared/page_title', title: @title %>
   
 <% #Common dashboard/sandbox container nav bar  %>
 <%= render 'layouts/dashboard_navigation' %>
@@ -26,6 +26,15 @@
       <% end %>
       <% if recipe.ingredients.any? %>
         <p>Ingredients: <%= render recipe.ingredients %></p>
+      <% end %>
+      <% if recipe.categories.any? %>
+        <p>Categories: <%= render recipe.categories %></p>
+      <% end %>
+      <% if recipe.preptimes.any? %>
+        <p>Time to Prepare: <%= render recipe.preptimes %></p>
+      <% end %>
+      <% if recipe.diets.any? %>
+        <p>Diets: <%= render recipe.diets %></p>
       <% end %>
       <p>
           <span class='quiet'><small> created: <%= time_ago_in_words(recipe.created_at) %> ago, </small></span>

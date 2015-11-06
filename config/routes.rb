@@ -39,9 +39,12 @@ Rails.application.routes.draw do
     post '/login',  to: "logins#create"
     get  '/logout', to: "logins#destroy"
     
-  resources :styles, only: [:new, :create, :show]
-  resources :ingredients, only: [:new, :create, :show]
+  resources :styles, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+  resources :ingredients, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   resources :reviews, except: [:new] # new action handled via recipes because review is based on recipe, needs recipe_id
+  resources :categories, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+  resources :preptimes, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+  resources :diets, only: [:index, :new, :create, :show, :edit, :update, :destroy]
   
   # Example resource route with options:
   #   resources :products do

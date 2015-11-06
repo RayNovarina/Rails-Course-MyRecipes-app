@@ -1,4 +1,4 @@
-<%= render 'shared/page_title', title: "All Chefs" %>
+<%= render 'shared/page_title', title: @title %>
   
 <% #Common dashboard/sandbox container nav bar  %>
 <%= render 'layouts/dashboard_navigation' %>
@@ -9,6 +9,7 @@
   
 
 <% @chefs.each do |chef| %>
+
   <div class="row">
     <div class="col-md-2">
       <section class="chef_info center" title = "<%#= chef.email %>" >

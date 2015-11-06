@@ -1,18 +1,17 @@
 class Recipe < ActiveRecord::Base
   belongs_to :chef
-  #belongs_to :recipe_review
-  #has_many :reviews, as: :reviewable
   has_many :likes, dependent: :destroy 
-  
   has_many :reviews, dependent: :destroy
-  #has_many :recipe_reviews, dependent: :destroy 
-  #has_many :reviews, through: :recipe_reviews
-  
-  
   has_many :recipe_styles, dependent: :destroy 
   has_many :styles, through: :recipe_styles
   has_many :recipe_ingredients, dependent: :destroy 
   has_many :ingredients, through: :recipe_ingredients
+  has_many :recipe_categories, dependent: :destroy 
+  has_many :categories, through: :recipe_categories
+  has_many :recipe_preptimes, dependent: :destroy 
+  has_many :preptimes, through: :recipe_preptimes
+  has_many :recipe_diets, dependent: :destroy 
+  has_many :diets, through: :recipe_diets
 
   validates :name,        presence: true, length: { minimum:  5, maximum: 100 }
   

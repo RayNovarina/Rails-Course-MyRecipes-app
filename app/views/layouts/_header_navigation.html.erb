@@ -11,7 +11,8 @@
           <span title="Display all Recipes of the specified Style">Styles</span> <b class="caret"></b>
         <% end %>
         <ul class="dropdown-menu">
-          <% Style.all.each do |style| %>
+          <% model_styles({ b_return_just_list: true, b_no_pagination: true }).each do |style| %>
+          <% #Style.all.each do |style| %>
             <li><%= link_to style.name, style_path(style) %></li>
           <% end %>
           <% if logged_in? %>
@@ -22,11 +23,7 @@
               <% end %>
             </li>
             <li class="divider"></li>
-            <li>
-              <%= link_to styles_path(edit: true) do %>
-                Edit Style 
-              <% end %></li>
-            </li>
+            <li><%= link_to "Edit Style", styles_path(edit: true) %></li>
           <% end %>
         </ul>
       </li>
@@ -38,11 +35,9 @@
           <span title="Display all Recipes of the specified Category">Categories</span> <b class="caret"></b>
         <% end %>
         <ul class="dropdown-menu">
-          
-          <% #Style.all.each do |category| %>
-          <% ["Breakfast", "Lunch", "Dinner", "Desert"].each do |category| %>
-            <% #<li><%= link_to style.name, style_path(style) %#></li>%>
-            <li><%= link_to category, style_path(Style.first) %></li>
+          <li><%= link_to "All Recipes", recipes_path %></li>
+          <% model_categories({ b_return_just_list: true, b_no_pagination: true }).each do |category| %>
+            <li><%= link_to category.name, category_path(category) %></li>
           <% end %>
           <li class="divider"></li>
           <li class="dropdown-submenu">
@@ -50,22 +45,18 @@
               <span title="Display all Recipes of the specified Time to Prepare">Time to Prepare</span></b>
             <% end %>
             <ul class="dropdown-menu">
-              <% ["Less than 30 mins", "Less than one hour", "More than an hour"].each do |time2prep| %>
-                <li><%= link_to time2prep, style_path(Style.first) %></li>
+              <% model_preptimes({ b_return_just_list: true, b_no_pagination: true }).each do |preptime| %>
+                <li><%= link_to preptime.name, preptime_path(preptime) %></li>
               <% end %>
               <% if logged_in? %>
                 <li class="divider"></li>
                 <li>
-                  <%= link_to(new_ingredient_path) do %>
+                  <%= link_to(new_preptime_path) do %>
                     New Time to Prepare
                   <% end %>
                 </li>
                 <li class="divider"></li>
-                <li>
-                  <%= link_to styles_path(edit: true) do %>
-                    Edit Time to Prepare
-                  <% end %>
-                </li>
+                <li><%= link_to "Edit Time to Prepare", preptimes_path(edit: true) %></li>
               <% end %>
             </ul>
           </li>
@@ -76,22 +67,18 @@
               <span title="Display all Recipes with the specified Dietary Restriction">Dietary Restrictions</span></b>
             <% end %>
             <ul class="dropdown-menu">
-              <% ["Low Fat", "Vegetarian", "Vegan", "Gluten Free"].each do |diet| %>
-                <li><%= link_to diet, style_path(Style.first) %></li>
+              <% model_diets({ b_return_just_list: true, b_no_pagination: true }).each do |diet| %>
+                <li><%= link_to diet.name, diet_path(diet) %></li>
               <% end %>
               <% if logged_in? %>
                 <li class="divider"></li>
                 <li>
-                  <%= link_to(new_ingredient_path) do %>
+                  <%= link_to(new_diet_path) do %>
                     New Dietary Restriction
                   <% end %>
                 </li>
                 <li class="divider"></li>
-                <li>
-                  <%= link_to styles_path(edit: true) do %>
-                    Edit Dietary Restriction
-                  <% end %>
-                </li>
+                <li><%= link_to "Edit Diet", diets_path(edit: true) %></li>
               <% end %>
             </ul>
           </li>
@@ -99,18 +86,13 @@
           <% if logged_in? %>
             <li class="divider"></li>
             <li>
-              <%= link_to(new_ingredient_path) do %>
+              <%= link_to(new_category_path) do %>
                 New Category
               <% end %>
             </li>
             <li class="divider"></li>
-            <li>
-              <%= link_to styles_path(edit: true) do %>
-                Edit Category 
-              <% end %>
-            </li>
+            <li><%= link_to "Edit Category", categories_path(edit: true) %></li>
           <% end %>
-          
         </ul>
       </li>
     </ul>
@@ -121,20 +103,17 @@
           Ingredients <b class="caret"></b>
         <% end %>
         <ul class="dropdown-menu">
-          <% Ingredient.all.each do |ingredient| %>
+          <% #Ingredient.all.each do |ingredient| %>
+          <% model_ingredients({ b_return_just_list: true, b_no_pagination: true }).each do |ingredient| %>
             <li><%= link_to ingredient.name, ingredient_path(ingredient) %></li>
           <% end %>
           <% if logged_in? %>
-               <li class="divider"></li>
-               <li><%= link_to(new_ingredient_path) do %>
-                   New Ingredient <% end %>
-               </li>
-               <li class="divider"></li>
-               <li>
-                  <%= link_to ingredients_path(edit: true) do %>
-                    Edit Ingredient 
-                  <% end %>
-               </li>
+              <li class="divider"></li>
+              <li><%= link_to(new_ingredient_path) do %>
+                 New Ingredient <% end %>
+              </li>
+              <li class="divider"></li>
+              <li><%= link_to "Edit Ingredient", ingredients_path(edit: true) %></li>
           <% end %>
         </ul>
       </li>
