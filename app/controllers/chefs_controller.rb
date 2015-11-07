@@ -7,30 +7,22 @@ class ChefsController < ApplicationController
   
   # A frequent practice is to place the standard CRUD actions in each controller in the following order: 
   #   index, show, new, edit, create, update and destroy.
+  
   def index()
-    @chefs, @options = model_chefs({})
-    @title = @options[:title]
-    # continue to /views/chefs/index.html.erb with @chefs, @title
+    # pass request along to /model for processing.
+    @chefs = Chef.index_action(params)
+    # continue to /views/chefs/index.html.erb with @chefs, params
   end
   
-
-  # Display info about the chef and list the chef's recipes.
-  # Url options - none:         list all recipes
-  #              likes = true:  recipes that have received a thumbs up.
-  #              likes = false: recipes that have received a thumbs down.
   def show()
-    options = { b_filter_by_likes: params.has_key?(:likes) && params[:likes] == "true" ? true : false,
-                b_filter_by_dislikes: params.has_key?(:likes) && params[:likes] == "false" ? true : false,
-                obj_chef: @chef,
-              }
-    @recipes, @options = model_recipes( options )
-    @title = @options[:title]
-    # continue to /views/chefs/show.html.erb with @chef, @recipes, @options, @title
+  # pass request along to /model for processing.
+    @recipes = @chef.show_action(params)
+    # continue to /views/chefs/show.html.erb with @chef, @recipes
   end
   
   def recipes
     # Note: set_chef has already been executed first because of before_action above and @chef object now exists.
-    # for now, display all recipes for this chef via the show chef profile page.
+    # for now, display all recipes for this chef via the show chef profile page. Processed by show action above.
     redirect_to chef_path(@chef)
   end
   

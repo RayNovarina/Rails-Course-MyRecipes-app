@@ -653,6 +653,7 @@ class ApplicationController < ActionController::Base
     end
     
     def set_for_options(options)
+
       if options[:obj_chef] || options[:chef_id]
         options[:b_forChef] = true
         if options[:b_make_obj_for_id]

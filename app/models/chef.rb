@@ -12,13 +12,13 @@ class Chef < ActiveRecord::Base
                                     uniqueness: { case_sensitive: false },
                                     format: { with: VALID_EMAIL_REGEX }
   has_secure_password
-   
-  # how many up or down votes have a chef's recipes received.
-  def chef_recipes_likes(chef, type)
-    options = { obj_chef: chef, b_thumbs_up_total: type == "up", b_thumbs_down_total: type =="down", b_forRecipes: true }
-    results = model_likes(options)
-    return (type == "up") ? results[:totals][:thumbs_up_total]: results[:totals][:thumbs_down_total]
+
+  # CLASS and Instance methods that extend the Chef ActiveRecord class via /models/concerns files.
+  
+    # Our extensions to add useful helper routines and to put biz logic in the model and not in controllers.
+    include ChefExtensions   # /models/concerns/chef_extensions.rb
     
-  end
+    # Authenication gem extensions:
+    # include AuthenticationGemExtensions
   
 end

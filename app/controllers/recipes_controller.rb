@@ -9,6 +9,8 @@ class RecipesController < ApplicationController
   
   # A frequent practice is to place the standard CRUD actions in each controller in the following order: 
   #   index, show, new, edit, create, update and destroy.
+  
+  # index(): show a list of recipes
   def index()
     @recipes, @options = model_recipes({})
     @title = @options[:title]

@@ -16,12 +16,9 @@ Rails.application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :chefs, except: [:new, :destroy] do
-    
-   #resources :recipes, only: [:index]   # chef_recipes_path    url: /chefs/:chef_id/recipes  -> recipes#index
-    resources :recipes, only: [:index], to: 'chefs#recipes'   # chef_recipes_path    url: /chefs/:chef_id/recipes  -> chefs#recipes
-    resources :reviews, only: [:index]   # chef_reviews_path    url: /chefs/:chef_id/reviews  -> reviews#index
-    resources :likes, only: [:index]     # chef_likes_path      url: /chefs/:chef_id/likes    -> likes#index
-    #get '/recipes', to: 'recipes#index' # chef_recipes_path    url: /chefs/:chef_id/recipes  -> recipes#index
+    resources :recipes, only: [:index], to: 'chefs#show'    # chef_recipes_path    url: /chefs/:chef_id/recipes  -> chefs#show
+    resources :reviews, only: [:index]                      # chef_reviews_path    url: /chefs/:chef_id/reviews  -> reviews#index
+    #resources :likes, only: [:index]                        # chef_likes_path      url: /chefs/:chef_id/likes    -> likes#index
   end
   get '/register', to: 'chefs#new'       # register_path        url: /register                -> chefs#new 
   
@@ -30,8 +27,7 @@ Rails.application.routes.draw do
       post "like"
     end
     resources :reviews, only: [:index,         # recipe_reviews_path         url: /recipes/:recipe_id/reviews        -> reviews#index
-                               :new]#,         # recipe_reviews_new_path     url: /recipes/:recipe_id/reviews/new    -> reviews#new
-                               #:create]       # recipe_reviews_create_path  url: /recipes/:recipe_id/reviews/create -> reviews#create
+                               :new]           # recipe_reviews_new_path     url: /recipes/:recipe_id/reviews/new    -> reviews#new
   end
   
   resources :logins, except: [:index, :show, :new, :edit, :create, :update, :destroy]

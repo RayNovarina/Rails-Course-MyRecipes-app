@@ -132,7 +132,7 @@
                <li><%= link_to "View Profile", chef_path(current_user) %></li>
                <li><%= link_to "Edit Profile", edit_chef_path(current_user) %></li>
                <li><%= link_to "My Recipes", chef_recipes_path(current_user) %></li>
-               <li><%= link_to "Voting Results", chef_likes_path(current_user), title: "List my Recipes, most popular first." %></li>
+               <li><%= link_to "Voting Results", chef_path(current_user, sort_by: "popular"), title: "List my Recipes, most popular first." %></li>
                <li><%= link_to "Reviews I have given", chef_reviews_path(current_user, given: true), \
                                title: "List recipes I have reviewed, most recently first. Includes my review." %></li>
                <li><%= link_to "Reviews I have receieved", chef_reviews_path(current_user, given: false), \
