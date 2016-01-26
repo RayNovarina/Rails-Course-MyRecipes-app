@@ -29,10 +29,10 @@ class ChefsController < ApplicationController
   def new()
     # /register url will post to create()
     @chef = Chef.new
-  end
+  end 
   
   def edit()
-    # will submit to the update() action
+    # will submit to the update() action.
     # Note: set_chef has already been executed first because of before_action above and @chef object now exists.
   end
   
